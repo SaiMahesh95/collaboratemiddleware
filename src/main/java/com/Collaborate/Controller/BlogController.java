@@ -42,6 +42,9 @@ public ResponseEntity<String> createBlog(@RequestBody Blog blog)
 	}
 }
 
+@GetMapping(value="/approveBlog/{blogid}")
+   public Respon
+
 
 
 

@@ -24,4 +24,4 @@ public class WebIntializer extends AbstractAnnotationConfigDispatcherServletInit
 		return new String[]{"/"};
 	}
    }
- }
+ 
