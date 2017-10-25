@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.niit.dao.BlogPostDao;
-import com.niit.model.BlogComment;
-import com.niit.model.BlogPost;
-import com.niit.model.Users;
-import com.niit.model.Error;
+import com.collaborate.DAO.BlogPostDao;
+import com.collaborate.Model.BlogComment;
+import com.collaborate.Model.BlogPost;
+import com.collaborate.Model.User;
+import com.collaborate.Model.Error;
 
 @RestController
 public class BlogController
@@ -31,7 +31,7 @@ private static BlogPost blogPost;
 @RequestMapping(value="/saveblogpost",method=RequestMethod.POST)
 public ResponseEntity<?> saveBlogPost(@RequestBody BlogPost blogPost,HttpSession session)
 {
-	Users users=(Users)session.getAttribute("user");
+	User users=(User)session.getAttribute("user");
 	if(users==null)
 	{
 		Error error =new Error(3,"UnAutorized user");
@@ -39,7 +39,7 @@ public ResponseEntity<?> saveBlogPost(@RequestBody BlogPost blogPost,HttpSession
 	}
 	try{
 		blogPost.setPostedOn(new Date());
-		blogPost.setCreatedBy(users);
+		blogPost.setCreatedBy(user);
 		blogPostDao.saveBlogPost(blogPost);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
@@ -53,7 +53,7 @@ public ResponseEntity<?> saveBlogPost(@RequestBody BlogPost blogPost,HttpSession
 @RequestMapping(value="/listofblogs/{approved}",method=RequestMethod.GET)
 public ResponseEntity<?> getAllBlogs(@PathVariable int approved,HttpSession session)
 {
-	Users users=(Users)session.getAttribute("user");
+	User users=(User)session.getAttribute("user");
 	if(users==null)
 	{
 		Error error=new Error(3,"UnAutorized user");
@@ -68,7 +68,7 @@ public ResponseEntity<?> getAllBlogs(@PathVariable int approved,HttpSession sess
 
 @RequestMapping(value="/getblogpost/{id}",method=RequestMethod.GET)
 public ResponseEntity<?> getBlogPost(@PathVariable int id,HttpSession session){
-	Users users=(Users)session.getAttribute("user");
+	User users=(User)session.getAttribute("user");
 	if(users==null)
 	{
 		Error error=new Error(3,"UnAutorized user");
@@ -82,7 +82,7 @@ public ResponseEntity<?> getBlogPost(@PathVariable int id,HttpSession session){
 
 @RequestMapping(value="/updateApproval",method=RequestMethod.PUT) 
 public ResponseEntity<?> updateBlogPost(@RequestBody BlogPost blogPost,HttpSession session){
-	Users users=(Users)session.getAttribute("user");
+	User users=(User)session.getAttribute("user");
 	if(users==null)
 	{
 		
@@ -97,7 +97,7 @@ return new ResponseEntity<Void>(HttpStatus.OK);
 
 @RequestMapping(value="/addblogcomment",method=RequestMethod.POST) 
 public ResponseEntity<?> addBlogComment(@RequestBody BlogComment blogComment,HttpSession session){
-	Users users=(Users)session.getAttribute("user");
+	User users=(User)session.getAttribute("user");
 	if(users==null)
 	{
 		
@@ -107,7 +107,7 @@ public ResponseEntity<?> addBlogComment(@RequestBody BlogComment blogComment,Htt
 }
 	try
 	{
-		blogComment.setCommentedBy(users);
+		blogComment.setComment("user");
 		blogComment.setCommentedOn(new Date());
 	
 blogPostDao.addBlogComment(blogComment);
@@ -122,7 +122,7 @@ return new ResponseEntity<Void>(HttpStatus.OK);
 }
 @RequestMapping(value="/getblogcomments/{blogPostId}",method=RequestMethod.GET)
 public ResponseEntity<?> blogComments(@PathVariable int blogPostId,HttpSession session){
-	Users user = (Users)session.getAttribute("user");
+	User user = (User)session.getAttribute("user");
 	if(user == null){
     	Error error = new Error(3,"Unauthorized user, please login");
     	return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);

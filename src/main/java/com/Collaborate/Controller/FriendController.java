@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.collaborate.DAO.FriendDao;
-import com.collaborate.Model.Users;
+import com.collaborate.Model.User;
 import com.collaborate.Model.Error;
 import com.collaborate.Model.Friend;
 
@@ -25,21 +25,21 @@ public class FriendController
 	@RequestMapping(value="/suggesteduserslist",method=RequestMethod.POST)
 	public ResponseEntity<?> getSuggestedUsersList(HttpSession session)
 	{
-		Users users=(Users)session.getAttribute("user");
+		User users=(User)session.getAttribute("user");
 		if(users==null)
 		{
 			Error error=new Error(3, "UnAuthoribute user");
 			return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);
 		}
-		List<Users> suggestedUsers=friendDao.listOfSuggestedUsers(users.getUsername());
-		return new ResponseEntity<List<Users>>(suggestedUsers,HttpStatus.OK);
+		List<User> suggestedUsers=friendDao.listOfSuggestedUsers(users.getUsername());
+		return new ResponseEntity<List<User>>(suggestedUsers,HttpStatus.OK);
 	}
 	
 	
 	@RequestMapping(value="/friendrequest/{toUsername}",method=RequestMethod.POST)
 	public ResponseEntity<?> friendRequest(@PathVariable String toUsername, HttpSession session)
 	{
-		Users users=(Users)session.getAttribute("user");
+		User users=(User)session.getAttribute("user");
 		if(users==null)
 		{
 			Error error=new Error(3, "UnAuthorised user");
@@ -54,7 +54,7 @@ public class FriendController
 	@RequestMapping(value="/pendingrequests",method=RequestMethod.GET)
 	public ResponseEntity<?> pendingRequest(HttpSession session)
 	{
-		Users users=(Users)session.getAttribute("user");
+		User users=(User)session.getAttribute("user");
 		if(users==null)
 		{
 			Error error=new Error(3, "UnAuthorised user");
@@ -68,7 +68,7 @@ public class FriendController
 	@RequestMapping(value="/updatependingrequest/{fromId}/{status}",method=RequestMethod.PUT)
 	public ResponseEntity<?> updatePendingRequests(@PathVariable String fromId,@PathVariable char status,HttpSession session)
 	{
-		Users users=(Users)session.getAttribute("user");
+		User users=(User)session.getAttribute("user");
 		if(users==null)
 		{
 			Error error=new Error(3, "UnAuthorised user");
@@ -81,7 +81,7 @@ public class FriendController
 	@RequestMapping(value="/listoffriends",method=RequestMethod.GET)
 	public ResponseEntity<?>listOfFriends(HttpSession session)
 	{
-		Users users=(Users)session.getAttribute("user");
+		User users=(User)session.getAttribute("user");
 		
 		if(users==null)
 		{

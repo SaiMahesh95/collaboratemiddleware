@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.collaborate.DAO.UsersDao;
-import com.collaborate.Model.Users;
+import com.collaborate.DAO.UserDao;
+import com.collaborate.Model.User;
 import com.collaborate.Model.Error;
 
 @RestController
@@ -25,13 +25,13 @@ public class UserController
 {
     @Autowired
     
-    private UsersDao usersDao;
+    private UserDao usersDao;
     
     @RequestMapping(value="/registration",method=RequestMethod.POST)
     
    
     
-    public ResponseEntity<Void> createUser(@RequestBody Users user) {
+    public ResponseEntity<Void> createUser(@RequestBody User user) {
         System.out.println("Creating User " + user.getFirstname());
  
  
@@ -43,10 +43,10 @@ public class UserController
  
 
 	@RequestMapping(value="/login",method=RequestMethod.POST)
-	public ResponseEntity<?> login(@RequestBody Users users,HttpSession session)
+	public ResponseEntity<?> login(@RequestBody User users,HttpSession session)
 	{ 
 	    System.out.println("Is Session New For" + users.getUsername() + session.isNew());
-	    Users validUser=usersDao.login(users);
+	    User validUser=usersDao.login(users);
 	    if(validUser==null)
 
 	    {
@@ -58,14 +58,14 @@ public class UserController
 		    validUser.setOnline(true);
 		    validUser=usersDao.updateUser(validUser);
 		    session.setAttribute("user", validUser);
-		    return new ResponseEntity<Users>(validUser,HttpStatus.OK);    
+		    return new ResponseEntity<User>(validUser,HttpStatus.OK);    
 		}
 	}
 	
 	@RequestMapping(value="/logout",method=RequestMethod.GET)
 	public ResponseEntity<?>logout(HttpSession session)
 	{    
-	    Users users=(Users)session.getAttribute("user");
+	    User users=(User)session.getAttribute("user");
 	    if(users==null)
 	    {
 	        Error error=new Error(3,"Unauthorized user");
@@ -83,20 +83,20 @@ public class UserController
 	@RequestMapping(value="/getuserdetails",method=RequestMethod.GET)
 	public ResponseEntity<?> getUserDetails(HttpSession session)
 	{    
-	    Users users=(Users)session.getAttribute("user");
+	    User users=(User)session.getAttribute("user");
 	    if(users==null)
 	    {
 	        Error error=new Error(3,"Unauthorized user");
 	        return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED); 
 	    }
 	    users=usersDao.getUserByUsername(users.getId());
-	    return new ResponseEntity<Users>(users,HttpStatus.OK);
+	    return new ResponseEntity<User>(users,HttpStatus.OK);
 	}
 	
 @RequestMapping(value="/updateprofile",method=RequestMethod.PUT)
-public ResponseEntity<?> updateUserProfile(@RequestBody Users user,HttpSession session)
+public ResponseEntity<?> updateUserProfile(@RequestBody User user,HttpSession session)
 {    
-    Users users=(Users)session.getAttribute("user");
+    User users=(User)session.getAttribute("user");
     if(users==null)
     {
         Error error=new Error(3,"Unauthorized user");

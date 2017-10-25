@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.collaborate.DAO.JobDao;
 import com.collaborate.Model.Job;
-import com.collaborate.Model.Users;
+import com.collaborate.Model.User;
 import com.collaborate.Model.Error;
 
 @RestController
@@ -27,7 +27,7 @@ public class JobController
 	@RequestMapping(value="/savejob", method=RequestMethod.POST)
 	public ResponseEntity<?> saveJob(@RequestBody Job job,HttpSession session)
 	{
-		Users users=(Users)session.getAttribute("user");
+		User users=(User)session.getAttribute("user");
 		if(users==null)
 		{
 			Error error=new Error(3,"unAuthorized user");
@@ -57,7 +57,7 @@ public class JobController
 	@RequestMapping(value="/getalljobs",method=RequestMethod.GET)
 	public ResponseEntity<?> getAllJobs(HttpSession session)
 	{
-		Users users =(Users)session.getAttribute("user");
+		User users =(User)session.getAttribute("user");
 		if(users==null)
 		{
 			Error error=new Error(3,"UnAuthorized user");
@@ -70,7 +70,7 @@ public class JobController
 
 @RequestMapping(value="/getjobbyid/{id}",method=RequestMethod.GET)
 public ResponseEntity<?> getJobById(@PathVariable int id,HttpSession session){
-    Users users=(Users)session.getAttribute("user");
+    User users=(User)session.getAttribute("user");
     if(users==null){
          Error error=new Error(3,"UnAuthorized user");
             return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);

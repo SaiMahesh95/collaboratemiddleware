@@ -16,7 +16,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import com.collaborate.DAO.ProfilePictureDao;
 import com.collaborate.Model.Error;
 import com.collaborate.Model.ProfilePicture;
-import com.collaborate.Model.Users;
+import com.collaborate.Model.User;
 
 @Controller
 public class ProfilePictureController {
@@ -24,7 +24,7 @@ public class ProfilePictureController {
 private ProfilePictureDao profilePictureDao;
 	@RequestMapping(value="/uploadprofilepic",method=RequestMethod.POST)
 public ResponseEntity<?> uploadProfilePicture(@RequestParam CommonsMultipartFile image,HttpSession session){
-	Users users=(Users)session.getAttribute("user");
+	User users=(User)session.getAttribute("user");
 	if(users==null)		{
 		   Error error=new Error(3,"UnAuthorized user");
 			return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);
@@ -33,13 +33,13 @@ public ResponseEntity<?> uploadProfilePicture(@RequestParam CommonsMultipartFile
 	profilePicture.setUsername(users.getUsername());
 	profilePicture.setImage(image.getBytes());
 	profilePictureDao.saveProfilePicture(profilePicture);
-	return new ResponseEntity<Users>(users,HttpStatus.OK);
+	return new ResponseEntity<User>(users,HttpStatus.OK);
 }
 	
 	//http://localhost:8080/backend_project2/getimage/admin
 	@RequestMapping(value="/getimage/{username}", method=RequestMethod.GET)
 	public @ResponseBody byte[] getProfilePic(@PathVariable String username,HttpSession session){
-		Users user=(Users)session.getAttribute("user");
+		User user=(User)session.getAttribute("user");
 		if(user==null)
 			return null;
 		else
