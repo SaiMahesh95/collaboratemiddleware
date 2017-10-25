@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.niit.dao.FriendDao;
-import com.niit.model.Users;
-import com.niit.model.Error;
-import com.niit.model.Friend;
+import com.collaborate.DAO.FriendDao;
+import com.collaborate.Model.Users;
+import com.collaborate.Model.Error;
+import com.collaborate.Model.Friend;
 
 @Controller
 public class FriendController 

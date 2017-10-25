@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.collaborate.dao.JobDao;
+import com.collaborate.DAO.JobDao;
 import com.collaborate.Model.Job;
 import com.collaborate.Model.Users;
 import com.collaborate.Model.Error;

@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.collaborate.dao.UsersDao;
-import com.collaborate.model.Users;
-import com.collaborate.model.Error;
+import com.collaborate.DAO.UsersDao;
+import com.collaborate.Model.Users;
+import com.collaborate.Model.Error;
 
 @RestController
 public class UserController 
