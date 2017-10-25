@@ -107,7 +107,7 @@ public ResponseEntity<?> addBlogComment(@RequestBody BlogComment blogComment,Htt
 }
 	try
 	{
-		blogComment.setComment("user");
+		blogComment.setCommentedBy(user);
 		blogComment.setCommentedOn(new Date());
 	
 blogPostDao.addBlogComment(blogComment);
